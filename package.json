@@ -1,4 +1,5 @@
 {
+  "name": "duckify",
   "private": true,
   "scripts": {
     "build": "nuxt build",
