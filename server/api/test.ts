@@ -1,9 +1,7 @@
 import fs from 'fs';
 
-export default defineEventHandler((event) => {
-
-
+export default defineEventHandler(event => {
     return {
-        api: 'works'
-    }
+        api: 'works',
+    };
 });
