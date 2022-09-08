@@ -1,0 +1,56 @@
+name: 'Linting'
+on: ['push']
+jobs:
+  prettier:
+    name: 'Prettier'
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v2'
+        with:
+          ref: '${{ github.head_ref }}'
+
+      - uses: 'actions/cache@v2'
+        name: 'Configure npm caching'
+        with:
+          path: '~/.npm'
+          key: "${{ runner.os }}-npm-${{ hashFiles('**/workflows/prettier.yml') }}"
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: 'Run prettier'
+        run: |-
+          npx prettier --check .
+
+  vue-tsc:
+    name: 'Vue TSC'
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@v2'
+        with:
+          ref: '${{ github.head_ref }}'
+
+      - uses: 'actions/cache@v2'
+        name: 'Configure npm caching'
+        with:
+          path: '~/.npm'
+          key: "${{ runner.os }}-npm-${{ hashFiles('**/workflows/linting.yml') }}"
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - uses: 'actions/cache@v2'
+        name: 'Configure node modules caching'
+        with:
+          path: 'node_modules'
+          key: "${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}"
+          restore-keys: |
+            ${{ runner.os }}-mode-modules-
+
+      - name: 'Install NPM modules'
+        run: |-
+          npm ci
+
+      - name: 'Run vue-tsc'
+        run: |-
+          npx nuxi typecheck

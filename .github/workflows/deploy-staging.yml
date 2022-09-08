@@ -2,7 +2,7 @@ name: 'Deploy Staging'
 
 on:
   workflow_run:
-    workflows: ['Prettier']
+    workflows: ['Linting']
     types: ['completed']
 
 jobs:

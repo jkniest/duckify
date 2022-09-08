@@ -7,10 +7,12 @@
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
-        "prettier": "prettier --write ."
+        "prettier": "prettier --write .",
+        "tsc": "nuxi typecheck"
     },
     "devDependencies": {
         "@nuxtjs/tailwindcss": "^5.3.2",
+        "@types/spotify-web-playback-sdk": "^0.1.15",
         "nuxt": "3.0.0-rc.9",
         "prettier": "^2.7.1"
     }
