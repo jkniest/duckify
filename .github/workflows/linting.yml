@@ -22,7 +22,6 @@ jobs:
         run: |-
           npx prettier --check .
 
-
   vue-tsc:
     name: 'Vue TSC'
     runs-on: 'ubuntu-latest'
@@ -36,9 +35,21 @@ jobs:
         name: 'Configure npm caching'
         with:
           path: '~/.npm'
-          key: "${{ runner.os }}-npm-${{ hashFiles('**/workflows/prettier.yml') }}"
+          key: "${{ runner.os }}-npm-${{ hashFiles('**/workflows/linting.yml') }}"
           restore-keys: |
             ${{ runner.os }}-npm-
+
+      - uses: 'actions/cache@v2'
+        name: 'Configure node modules caching'
+        with:
+          path: 'node_modules'
+          key: "${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}"
+          restore-keys: |
+            ${{ runner.os }}-mode-modules-
+
+      - name: 'Install NPM modules'
+        run: |-
+          npm ci
 
       - name: 'Run vue-tsc'
         run: |-
