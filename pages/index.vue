@@ -6,6 +6,9 @@ const credentials = useCredentialsStore();
 const signedIn = ref(false);
 const loading = ref(true);
 const { player, startSpotify } = useSpotify();
+const metaData = ref({
+    uid: null
+});
 
 onMounted(() => {
     if (!credentials.spotifyAccessToken) {
@@ -15,8 +18,26 @@ onMounted(() => {
     }
 
     signedIn.value = true;
-    startSpotify(credentials.spotifyAccessToken);
-    loading.value = false;
+    startSpotify(credentials.spotifyAccessToken, () => {
+        loading.value = false;
+
+        player.value.addListener('player_state_changed', state => {
+            const currentItem = state.context.metadata.current_item;
+            if (metaData.value.uid === currentItem.uid) {
+                return;
+            }
+
+            metaData.value = currentItem;
+            startAnalysis(currentItem.uid);
+        })
+    });
+
+    async function startAnalysis(uid: string) {
+        const response = await fetch(`/api/spotify/analyze?id=${uid}`);
+        const json = await response.json();
+
+        console.log(json);
+    }
 });
 
 function signIn() {

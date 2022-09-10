@@ -3,7 +3,7 @@ import { ref, useHead, useState } from '#build/imports';
 export const useSpotify = () => {
     const player = ref(null);
 
-    function startSpotify(token: string) {
+    function startSpotify(token: string, callback: () => void = () => {}) {
         // Import spotify
         useHead({
             script: [
@@ -24,6 +24,7 @@ export const useSpotify = () => {
             });
 
             player.value.connect();
+            callback();
         };
     }
 
