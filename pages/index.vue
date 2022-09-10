@@ -15,21 +15,29 @@ onMounted(() => {
     }
 
     signedIn.value = true;
-    startSpotify(credentials.spotifyAccessToken);
     loading.value = false;
 });
 
 function signIn() {
     location.href = '/api/spotify/login';
 }
+
+function startPlayer() {
+    startSpotify(credentials.spotifyAccessToken);
+}
 </script>
 
 <template>
     <div class="min-h-screen min-w-screen bg-gray-800 text-gray-50">
-        <div class="flex flex-col items-center pt-10" v-if="loading || (signedIn && !player)">Loading...</div>
+        <div class="flex flex-col items-center pt-10" v-if="loading">Loading...</div>
         <div class="flex flex-col items-center pt-10 space-y-3" v-else-if="!signedIn">
             <button class="bg-green-50 text-green-900 w-[250px] p-3 border border-black" @click="signIn">
                 Sign in using spotify
+            </button>
+        </div>
+        <div class="flex flex-col items-center pt-10 space-y-3" v-else-if="!player">
+            <button class="bg-green-50 text-green-900 w-[250px] p-3 border border-black" @click="startPlayer">
+                Start spotify player
             </button>
         </div>
         <div class="pt-10 flex flex-col items-center" v-else>
