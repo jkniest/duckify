@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows: ['Linting']
     types: ['completed']
+    branches: ['develop']
 
 jobs:
   deploy-staging:
