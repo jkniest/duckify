@@ -1,5 +1,5 @@
-import {defineStore} from "pinia";
-import {useLocalStorage} from "@vueuse/core";
+import { defineStore } from 'pinia';
+import { useLocalStorage } from '@vueuse/core';
 
 export const useCredentialsStore = defineStore('credentials', () => {
     const spotifyAccessToken = useLocalStorage('spotify_access_token', null);
@@ -13,6 +13,6 @@ export const useCredentialsStore = defineStore('credentials', () => {
     return {
         setCredentials,
         spotifyAccessToken,
-        spotifyRefreshToken
-    }
+        spotifyRefreshToken,
+    };
 });

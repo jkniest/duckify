@@ -9,7 +9,7 @@ jobs:
   deploy-staging:
     name: 'Deploy Staging'
     runs-on: 'ubuntu-latest'
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.ref === 'refs/heads/develop' }}
     steps:
       - name: 'Deploy'
         uses: 'jbrooksuk/laravel-forge-action@v1.0.2'
